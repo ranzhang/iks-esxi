@@ -1,0 +1,23 @@
+provider "intersight" {
+  apikey    = "api key string"
+  secretkey = "path to SecretKey file"
+  endpoint = "https://intersight.com"
+}
+
+variable "vc_password" {
+  type        = string
+  description = "vCenter password"
+  default     = ""
+}
+
+variable "ssh_key" {
+  type        = string
+  description = "cluster ssh pub key"
+  default     = ""
+}
+
+variable "ssh_user" {
+  type        = string
+  description = "cluster ssh user name"
+  default     = ""
+}

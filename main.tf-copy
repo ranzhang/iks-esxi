@@ -1,0 +1,118 @@
+##creating an ipv4 pool
+module "ip_pool" {
+  source           = "terraform-cisco-modules/iks/intersight//modules/ip_pool"
+  name             = "k8s-pool3"
+  starting_address = "10.10.10.110"
+  pool_size        = "6"
+  netmask          = "255.255.255.0"
+  gateway          = "10.10.10.1"
+  primary_dns      = "10.10.10.34"
+  secondary_dns    = "10.10.10.73"
+
+  org_name = var.organization
+  tags     = var.tags
+}
+
+##creating vCenter provider infra
+module "infra_provider" {
+  source           = "terraform-cisco-modules/iks/intersight//modules/infra_provider"
+  name             = "lab-vcenter"
+  device_name      = "10.10.10.33"
+  vc_portgroup     = ["VM Network"]
+  vc_datastore     = "datastore1"
+  vc_cluster       = "ucs"
+  vc_resource_pool = ""
+  vc_password      = var.vc_password
+  instance_type_moid = module.k8s_worker_small.worker_profile_moid
+  org_name         = var.organization
+  tags             = var.tags
+}
+
+##creating the k8s network policies. You can specify CIDRs if needed.
+module "k8s_network" {
+  source      = "terraform-cisco-modules/iks/intersight//modules/k8s_network"
+  dns_servers = ["10.10.10.34", "10.10.10.73"]
+  ntp_servers = ["10.10.10.200"]
+  domain_name = "iks.local"
+  timezone    = "America/Chicago"
+  org_name    = var.organization
+  tags        = var.tags
+  policy_name = "k8s-test"
+}
+
+##creating the k8s worker node policy. 
+module "k8s_worker_small" {
+  source    = "terraform-cisco-modules/iks/intersight//modules/worker_profile"
+  name      = "k8s_small"
+  cpu       = 4
+  memory    = 163843
+  disk_size = 40
+
+  org_name = var.organization
+  tags     = var.tags
+}
+
+##creating docker policy
+
+##creating k8s add-on policy
+module "addon_policy" {
+  source            = "terraform-cisco-modules/iks/intersight//modules/addon_policy"
+  addon_policy_name = "default"
+  org_name          = var.organization
+  tags              = var.tags
+}
+
+##creating version policy
+module "k8s-ver" {
+  source           = "terraform-cisco-modules/iks/intersight//modules/version"
+  k8s_version      = "1.18.12"
+  k8s_version_name = "test_1.18.12"
+
+  org_name = var.organization
+  tags     = var.tags
+}
+
+##creating master nodes profile
+module "master_profile" {
+   source = "terraform-cisco-modules/iks/intersight//modules/node_profile"
+   name = "master_dev"
+   profile_type = "Master"
+   desired_size = 2
+   infra_moid = module.infra_provider.infra_provider_moid
+   ip_pool_moid = module.ip_pool.ip_pool_moid
+   version_moid = module.k8s-ver.version_policy_moid
+   cluster_moid = module.dev_cluster.cluster_moid
+   org_name         = var.organization
+   tags             = var.tags
+}
+
+##creating worker nodes profile
+module "worker_profile" {
+   source = "terraform-cisco-modules/iks/intersight//modules/node_profile"
+   name = "worker_dev"
+   profile_type = "Worker"
+   desired_size = 1
+   infra_moid = module.infra_provider.infra_provider_moid
+   ip_pool_moid = module.ip_pool.ip_pool_moid
+   version_moid = module.k8s-ver.version_policy_moid
+   cluster_moid = module.dev_cluster.cluster_moid
+   org_name         = var.organization
+   tags             = var.tags
+}
+
+##creating cluster profile
+module "dev_cluster" {
+   source = "terraform-cisco-modules/iks/intersight//modules/cluster"
+   name = "dev-cluster3"
+   action = "Deploy"
+   ip_pool_moid = module.ip_pool.ip_pool_moid
+   load_balancer = 2
+   ssh_key = var.ssh_key
+   ssh_user = var.ssh_user
+   addon_policy_moid = module.addon_policy.addon_policy_moid
+   net_config_moid = module.k8s_network.network_policy_moid
+   sys_config_moid = module.k8s_network.sys_config_policy_moid
+
+   org_name         = var.organization
+   tags             = var.tags
+}

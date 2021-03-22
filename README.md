@@ -1,7 +1,7 @@
 # iks-esxi
 This is a project based on the great work of https://github.com/terraform-cisco-modules/terraform-intersight-iks
 
-This project deploys IKS over vCenter. You can customize various parameters through the three files below. Rename files by removing '-copy'. Before destroying the resources, undeploy the cluster profile first.
+This project deploys IKS over vCenter. You can customize various parameters through the three files below. Rename files by removing '-copy'. You may also update the versions.tf as needed. Before destroying the resources, undeploy the cluster profile first.
 
 Info update needed in:
 - main.tf
