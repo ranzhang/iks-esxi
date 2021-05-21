@@ -1,0 +1,269 @@
+##general variables
+variable "organization" {
+  type        = string
+  description = "Organization Name"
+  default     = "default"
+}
+variable "tags" {
+  type    = list(map(string))
+  default = []
+}
+variable "root_ca_registries" {
+  type        = list(string)
+  description = "List of root CA certificates."
+  default     = []
+}
+
+##ip pool variables
+variable "ip_starting_address" {
+  type        = string
+  description = "Starting IP Address you want for this pool."
+  default     = ""
+}
+variable "ip_pool_size" {
+  type        = string
+  description = "Number of IPs you want this pool to contain."
+  default     = ""
+}
+variable "ip_netmask" {
+  type        = string
+  description = "Subnet Mask for this pool."
+  default     = ""
+}
+variable "ip_gateway" {
+  type        = string
+  description = "Default gateway for this pool."
+  default     = ""
+}
+variable "ip_primary_dns" {
+  type        = string
+  description = "Primary DNS Server for this pool."
+  default     = ""
+}
+variable "ip_secondary_dns" {
+  type        = string
+  description = "Secondary DNS Server for this pool."
+  default     = ""
+}
+
+##vcenter variables
+variable "vc_target_name" {
+  type        = string
+  description = "Target device name as referenced in Intersight.  vCenter is currently the only supported target."
+  default     = ""
+}
+variable "vc_cluster" {
+  type        = string
+  description = "Name of the cluster you wish to make part of this provider within vCenter."
+  default     = ""
+}
+variable "vc_portgroup" {
+  type        = list(string)
+  description = "Name of the portgroup(s) to be used in this provider"
+  default     = [""]
+}
+variable "vc_datastore" {
+  type        = string
+  description = "Name of the datastore to be used with this provider."
+  default     = ""
+}
+variable "vc_resource_pool" {
+  type        = string
+  description = "Name of the resource pool to be used with this provider."
+  default     = ""
+}
+
+##k8s network variables
+variable "pod_cidr" {
+  type        = string
+  description = "Pod CIDR Block to be used to assign POD IP Addresses."
+  default     = "100.65.0.0/16"
+}
+variable "service_cidr" {
+  type        = string
+  description = "Service CIDR Block used to assign cluster service IP addresses."
+  default     = "100.64.0.0/24"
+}
+variable "cni" {
+  type        = string
+  description = "Supported CNI type. Currently we only support Calico.* Calico - Calico CNI plugin as described in https://github.com/projectcalico/cni-plugin."
+  default     = "Calico"
+}
+variable "ip_primary_ntp" {
+  type        = string
+  description = "Primary NTP Server for this pool."
+  default     = ""
+}
+variable "ip_secondary_ntp" {
+  type        = string
+  description = "Secondary NTP Server for this pool."
+  default     = ""
+}
+variable "domain_name" {
+  type        = string
+  description = "Domain Name information for DNS search."
+  default     = ""
+}
+variable "timezone" {
+  type        = string
+  description = "The timezone of the node's system clock.  Check Terraform documentation for correct format.  Example America/New_York"
+  default     = ""
+}
+
+##trusted registry variables
+variable "unsigned_registries" {
+  type        = list(string)
+  description = "List of unsigned registries to be supported."
+  default     = []
+}
+
+##k8s version variables
+variable "k8s_version" {
+  type        = string
+  description = "Cluster action wanted (ex. Deploy or Unassign)"
+  default     = "1.19.5"
+}
+
+##small worker profile variables
+variable "sworker_cpu" {
+  type        = string
+  description = "Small worker CPU size"
+  default     = "4"
+}
+variable "sworker_memory" {
+  type        = string
+  description = "Small worker memory size"
+  default     = "163843"
+}
+variable "sworker_disk" {
+  type        = string
+  description = "Small worker disk size in GB"
+  default     = "40"
+}
+
+##docker proxy environment variables
+variable "docker_bridge_cidr" {
+  type        = string
+  default     = ""
+  description = "Docker Bridge CIDR network to be specified."
+}
+variable "proxy_http_hostname" {
+  type        = string
+  description = "HTTP Proxy server FQDN or IP."
+  default     = ""
+}
+variable "proxy_http_password" {
+  type        = string
+  default     = ""
+  description = "The password for the HTTP Proxy."
+}
+variable "proxy_http_username" {
+  type        = string
+  default     = ""
+  description = "The username for the HTTP Proxy."
+}
+variable "proxy_http_port" {
+  type        = number
+  default     = ""
+  description = "The HTTP Proxy port number.The port number of the HTTP proxy must be between 1 and 65535, inclusive."
+}
+variable "proxy_http_protocol" {
+  type        = string
+  default     = "HTTP"
+  description = " Protocol to use for the HTTPS Proxy."
+}
+variable "proxy_https_hostname" {
+  type        = string
+  description = "HTTPS Proxy server FQDN or IP."
+  default     = ""
+}
+variable "proxy_https_password" {
+  type        = string
+  default     = ""
+  description = "The password for the HTTPS Proxy."
+}
+variable "proxy_https_username" {
+  type        = string
+  default     = ""
+  description = "The username for the HTTPS Proxy."
+}
+variable "proxy_https_port" {
+  type        = number
+  default     = ""
+  description = "The HTTPS Proxy port number.The port number of the HTTPS proxy must be between 1 and 65535, inclusive."
+}
+variable "proxy_https_protocol" {
+  type        = string
+  default     = "HTTP"
+  description = " Protocol to use for the HTTPS Proxy."
+}
+variable "docker_no_proxy" {
+  type        = list(string)
+  default     = ["localhost","127.0.0.1","localaddress",".domain.com"]
+  description = "Networks excluded from the proxy."
+}
+
+##k8s cluster profile variables
+variable "cluster_name" {
+  type        = string
+  description = "Name to be given to the cluster.  This will also prefix all attributes created by this module."
+  default     = ""
+}
+variable "cluster_action" {
+  type        = string
+  description = "Cluster action wanted (ex. Deploy or Unassign)"
+  default     = "Deploy"
+}
+variable "wait_for_completion" {
+  type        = bool
+  default     = false
+  description = "Wait for cluster completion true/false"
+}
+variable "load_balancers" {
+  type        = number
+  description = "Number of load_balancers for the cluster."
+  default     = 1
+}
+
+##k8s master (control) profile variables
+variable "master_count" {
+  type        = number
+  description = "Number of master nodes"
+  default     = 1
+}
+variable "master_max" {
+  type        = number
+  description = "Max number of master nodes"
+  default     = 3
+}
+
+#k8s worker (data) profile variables
+variable "worker_count" {
+  type        = number
+  description = "Number of worker nodes wanted for the cluster."
+  default     = 1
+}
+variable "worker_max" {
+  type        = number
+  description = "Maximum number of worker nodes in a cluster."
+  default     = 50
+}
+
+##add-ons
+variable "addons" {
+  type        = string
+  default     = "ccp-monitor"
+  description = "Addon to be added to the policy.  See Terraform documentation for list of supported addons."
+}
+variable "upgrade_strategy" {
+  type        = string
+  default     = "AlwaysReinstall"
+  description = "Addon upgrade strategy"
+}
+variable "install_strategy" {
+  type        = string
+  default     = "InstallOnly"
+  description = "Addon install_strategy"
+}
+
+
