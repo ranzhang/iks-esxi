@@ -6,7 +6,7 @@ Info update needed in these two files:
 - global-vars.tf
 - private.tf
 
-To simplify changes, the variables that require update are indicated with <update>. All other values you may take what are provided or use your own.
+To simplify changes, the variables that require update are indicated with "<update>". All other values you may take what are provided or use your own.
 
 Main steps of resource provisioning (fill out your own data):
 1. Create an IP address pool for the tenant cluster
