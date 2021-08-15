@@ -1,23 +1,23 @@
 provider "intersight" {
-  apikey    = "api key string"
-  secretkey = "path to SecretKey file"
+  apikey    = "<update>"
+  secretkey = "<update>"
   endpoint = "https://intersight.com"
 }
 
 variable "vc_password" {
   type        = string
   description = "vCenter password"
-  default     = ""
+  default     = "<update>"
 }
 
 variable "ssh_key" {
   type        = string
   description = "cluster ssh pub key"
-  default     = ""
+  default     = "<update>"
 }
 
 variable "ssh_user" {
   type        = string
   description = "cluster ssh user name"
-  default     = ""
+  default     = "<update>"
 }

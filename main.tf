@@ -138,3 +138,24 @@ module "worker_provider" {
   infra_config_policy_moid = module.infra_config_policy.infra_config_moid
   tags                     = var.tags
 }
+
+module "iks_addons" {
+  source            = "terraform-cisco-modules/iks/intersight//modules/addon_policy"
+  addons            = var.addons_list
+  org_name          = var.organization
+  tags              = var.tags
+}
+
+module "cluster_addon_profile" {
+
+  source     = "terraform-cisco-modules/iks/intersight//modules/cluster_addon_profile"
+  count      = var.addons_list != null ? 1 : 0
+  depends_on = [module.iks_addons]
+    profile_name = "${var.cluster_name}-addon-profile"
+
+  # addons = ["monitor"]
+  addons       = keys(module.iks_addons.addon_policy)
+  cluster_moid = module.cluster.k8s_cluster_moid
+  org_name     = var.organization
+  tags         = var.tags
+}
