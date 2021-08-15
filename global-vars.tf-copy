@@ -18,54 +18,54 @@ variable "root_ca_registries" {
 variable "ip_starting_address" {
   type        = string
   description = "Starting IP Address you want for this pool."
-  default     = "<update>"
+  default     = "#update#"
 }
 variable "ip_pool_size" {
   type        = string
   description = "Number of IPs you want this pool to contain."
-  default     = "<update>"
+  default     = "#update#"
 }
 variable "ip_netmask" {
   type        = string
   description = "Subnet Mask for this pool."
-  default     = "<update>"
+  default     = "#update#"
 }
 variable "ip_gateway" {
   type        = string
   description = "Default gateway for this pool."
-  default     = "<update>"
+  default     = "#update#"
 }
 variable "ip_primary_dns" {
   type        = string
   description = "Primary DNS Server for this pool."
-  default     = "<update>"
+  default     = "#update#"
 }
 variable "ip_secondary_dns" {
   type        = string
   description = "Secondary DNS Server for this pool."
-  default     = "<update>"
+  default     = "#update#"
 }
 
 ##vcenter variables
 variable "vc_target_name" {
   type        = string
   description = "Target device name as referenced in Intersight.  vCenter is currently the only supported target."
-  default     = "<update>"
+  default     = "#update#"
 }
 variable "vc_cluster" {
   type        = string
   description = "Name of the cluster you wish to make part of this provider within vCenter."
-  default     = "<update>"
+  default     = "#update#"
 }
 variable "vc_portgroup" {
   type        = list(string)
   description = "Name of the portgroup(s) to be used in this provider"
-  default     = ["<update>"]
+  default     = ["#update#"]
 }
 variable "vc_datastore" {
   type        = string
   description = "Name of the datastore to be used with this provider."
-  default     = "<update>"
+  default     = "#update#"
 }
 variable "vc_resource_pool" {
   type        = string
@@ -92,22 +92,22 @@ variable "cni" {
 variable "ip_primary_ntp" {
   type        = string
   description = "Primary NTP Server for this pool."
-  default     = "<update>"
+  default     = "#update#"
 }
 variable "ip_secondary_ntp" {
   type        = string
   description = "Secondary NTP Server for this pool."
-  default     = "<update>"
+  default     = "#update#"
 }
 variable "domain_name" {
   type        = string
   description = "Domain Name information for DNS search."
-  default     = "<update>"
+  default     = "#update#"
 }
 variable "timezone" {
   type        = string
   description = "The timezone of the node's system clock.  Check Terraform documentation for correct format.  Example America/New_York"
-  default     = "<update>"
+  default     = "#update#"
 }
 
 ##trusted registry variables
@@ -150,7 +150,7 @@ variable "docker_bridge_cidr" {
 variable "proxy_http_hostname" {
   type        = string
   description = "HTTP Proxy server FQDN or IP."
-  default     = "<update>"
+  default     = "#update#"
 }
 variable "proxy_http_password" {
   type        = string
@@ -175,7 +175,7 @@ variable "proxy_http_protocol" {
 variable "proxy_https_hostname" {
   type        = string
   description = "HTTPS Proxy server FQDN or IP."
-  default     = "<update>"
+  default     = "#update#"
 }
 variable "proxy_https_password" {
   type        = string
@@ -207,7 +207,7 @@ variable "docker_no_proxy" {
 variable "cluster_name" {
   type        = string
   description = "Name to be given to the cluster.  This will also prefix all attributes created by this module."
-  default     = "<update>"
+  default     = "#update#"
 }
 variable "cluster_action" {
   type        = string
