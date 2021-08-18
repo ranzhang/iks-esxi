@@ -124,20 +124,26 @@ variable "k8s_version" {
   default     = "1.19.5"
 }
 
-##small worker profile variables
-variable "sworker_cpu" {
+## worker profile variables
+## worker sizing chart: small: 4,163848, 40; Medium: 8, 24576, 60; Large: 12, 32768, 80
+variable "worker_size" {
   type        = string
-  description = "Small worker CPU size"
+  description = "type of worker size, small, medium, large"
+  default     = "small"  
+}
+variable "worker_cpu" {
+  type        = string
+  description = "worker CPU size"
   default     = "4"
 }
-variable "sworker_memory" {
+variable "worker_memory" {
   type        = string
-  description = "Small worker memory size"
+  description = "worker memory size"
   default     = "163843"
 }
-variable "sworker_disk" {
+variable "worker_disk" {
   type        = string
-  description = "Small worker disk size in GB"
+  description = "worker disk size in GB"
   default     = "40"
 }
 

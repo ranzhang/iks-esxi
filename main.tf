@@ -55,12 +55,12 @@ module "k8s_version" {
 }
 
 ##creating the k8s small worker node policy. 
-module "worker_small" {
+module "worker" {
   source    = "terraform-cisco-modules/iks/intersight//modules/worker_profile"
-  name      = join("-", [var.cluster_name, "small"])
-  cpu       = var.sworker_cpu
-  memory    = var.sworker_memory
-  disk_size = var.sworker_disk
+  name      = join("-", [var.cluster_name, var.worker_size])
+  cpu       = var.worker_cpu
+  memory    = var.worker_memory
+  disk_size = var.worker_disk
   org_name  = var.organization
   tags      = var.tags
 }
@@ -124,7 +124,7 @@ module "worker_profile" {
 module "master_provider" {
   source = "terraform-cisco-modules/iks/intersight//modules/infra_provider"
   name   = "${var.cluster_name}-master"
-  instance_type_moid = module.worker_small.worker_profile_moid
+  instance_type_moid = module.worker.worker_profile_moid
   node_group_moid          = module.master_profile.node_group_profile_moid
   infra_config_policy_moid = module.infra_config_policy.infra_config_moid
   tags                     = var.tags
@@ -133,7 +133,7 @@ module "master_provider" {
 module "worker_provider" {
   source = "terraform-cisco-modules/iks/intersight//modules/infra_provider"
   name   = "${var.cluster_name}-worker"
-  instance_type_moid = module.worker_small.worker_profile_moid
+  instance_type_moid = module.worker.worker_profile_moid
   node_group_moid          = module.worker_profile.node_group_profile_moid
   infra_config_policy_moid = module.infra_config_policy.infra_config_moid
   tags                     = var.tags
